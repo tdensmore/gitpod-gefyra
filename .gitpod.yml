@@ -1,14 +1,20 @@
-ports:
-  - port: 31820
-    onOpen: ignore
+additionalRepositories:
+  - url: https://github.com/gitpod-io/demo-multi-repo-backend
+    # checkoutLocation is relative to /workspaces
+    checkoutLocation: gefyra
 tasks:
+  - name: Upgrade Pip
+    command: pip install --upgrade pip
   - name: Install Gefyra
     command: pip install gefyra --upgrade
-  - name: Pull Gefyra Repo
-    init: git clone git@github.com:gefyrahq/gefyra.git
   - name: Build Test App
+    before: |
+      cd ../gefyra
     command: cd testing/images/ && docker build -f Dockerfile.local . -t pyserver
   - name: Connect Gefyra
     command: gefyra run -i pyserver -N mypyserver -n default
   - name: Bridge Gefyra
     command: gefyra bridge -N mypyserver -n default --port 80:8000 --target deploy/hello-nginxdemo/hello-nginx
+ports:
+  - port: 31820
+    onOpen: ignore
