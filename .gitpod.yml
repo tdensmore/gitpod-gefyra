@@ -1,5 +1,6 @@
 additionalRepositories:
-  - url: git@github.com:gefyrahq/gefyra.git
+  - url: https://github.com/gefyrahq/gefyra.git
+  # - url: git@github.com:gefyrahq/gefyra.git
     # checkoutLocation is relative to /workspaces
     checkoutLocation: gefyra
 tasks:
