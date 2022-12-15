@@ -1,0 +1,14 @@
+ports:
+  - port: 31820
+    onOpen: ignore
+tasks:
+  - name: Install Gefyra
+    command: pip install gefyra --upgrade
+  - name: Pull Gefyra Repo
+    init: git clone git@github.com:gefyrahq/gefyra.git
+  - name: Build Test App
+    command: cd testing/images/ && docker build -f Dockerfile.local . -t pyserver
+  - name: Connect Gefyra
+    command: gefyra run -i pyserver -N mypyserver -n default
+  - name: Bridge Gefyra
+    command: gefyra bridge -N mypyserver -n default --port 80:8000 --target deploy/hello-nginxdemo/hello-nginx
